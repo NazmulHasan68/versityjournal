@@ -21,6 +21,7 @@ import ArchivesPage from "./pages/userPages/Archives/ArchivesPage";
 import Profile from "./components/Common/Profile";
 import Journal_hero_section from "./pages/userPages/JournalsPage/Journal_hero_section";
 import Journal_details from "./pages/userPages/JournalsPage/Journal_details";
+import EditorPage from "./pages/userPages/EditorPage/EditorPage";
 
 
 const router = createBrowserRouter([
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       { path : "/archive" , element : <ArchivesPage/>},
       { path : "/contact" , element : <ContactPage/>},
       { path : "/profile" , element : <Profile/>},
+      { path : "/editor", element : <EditorPage/>},
 
 
 

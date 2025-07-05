@@ -6,6 +6,7 @@ import category3 from "@/assets/bg/catagory2.jpg";
 import author1 from "@/assets/bg/bg1.jpg";
 import author2 from "@/assets/bg/bg2.jpg";
 import author3 from "@/assets/bg/bg3.jpg";
+import { Link } from "react-router-dom";
 
 const featuredArticles = [
   {
@@ -113,9 +114,9 @@ export default function Home_features_aritical() {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-            <button className="bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow">
+            <Link to={'/journal'} className="bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-md text-sm font-medium shadow">
             View All Articles
-            </button>
+            </Link>
         </div>
 
         </section>

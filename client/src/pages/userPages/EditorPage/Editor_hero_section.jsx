@@ -4,11 +4,10 @@ import bg from '@/assets/bg/bg.jpg';
 import bg1 from '@/assets/bg/bg1.jpg';
 import bg2 from '@/assets/bg/bg2.jpg';
 import bg3 from '@/assets/bg/bg3.jpg';
-import { Link } from 'react-router-dom';
 
 const images = [bg, bg1, bg2, bg3];
 
-export default function Home_hero_section() {
+export default function Editor_hero_section() {
   const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ export default function Home_hero_section() {
   }, []);
 
   return (
-    <section className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+    <section className="relative h-[160px] md:h-[200px] w-full overflow-hidden">
       {/* Background Slider */}
       <AnimatePresence>
         <motion.div
@@ -46,21 +45,13 @@ export default function Home_hero_section() {
           className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 drop-shadow-md leading-tight"
           style={{ fontFamily: `'Playfair Display', serif` }}
         >
-          Advancing Knowledge Through Academic Excellence
+          Editor Panel
         </h1>
 
         <p className="text-xs sm:text-sm md:text-base lg:text-lg text-slate-100 max-w-3xl mb-6 drop-shadow">
           A peer-reviewed journal publishing groundbreaking research and scholarly articles across disciplines.
         </p>
 
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link to={'/journal'} className="bg-sky-500 hover:bg-sky-600 transition px-4 py-2 text-sm sm:text-base text-white rounded-md font-semibold shadow-md">
-            Browse Latest Issue
-          </Link>
-          <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-sky-600 transition px-4 py-2 text-sm sm:text-base rounded-md font-semibold shadow-md">
-            Submit Research
-          </button>
-        </div>
       </div>
     </section>
   );

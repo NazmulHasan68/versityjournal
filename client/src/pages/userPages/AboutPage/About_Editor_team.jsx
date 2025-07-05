@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function About_Editor_team() {
   const editors = [
@@ -61,9 +62,9 @@ export default function About_Editor_team() {
 
         {/* View Button */}
         <div className="text-center mt-10 md:mt-14">
-          <button className="px-6 py-2 border border-blue-900 text-blue-900 dark:text-white dark:border-white rounded-full text-sm hover:bg-blue-900 hover:text-white transition">
+          <Link to={'/editor'} className="px-6 py-2 border border-blue-900 text-blue-900 dark:text-white dark:border-white rounded-full text-sm hover:bg-blue-900 hover:text-white transition">
             View Full Editorial Board
-          </button>
+          </Link>
         </div>
       </div>
     </section>

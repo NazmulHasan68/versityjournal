@@ -1,4 +1,5 @@
 
+import Footer from '@/components/Common/Footer';
 import NavigationBar from '@/components/Common/NavigationBar';
 import React from 'react'
 import { Outlet } from 'react-router-dom'
@@ -11,6 +12,7 @@ export default function MainLayoutpage() {
         <div className=''>
           <Outlet/>
         </div>
+      <Footer/>
         <Toaster richColors position="bottom-right" />
     </div>
   )
