@@ -57,9 +57,9 @@ export default function Home_hero_section() {
           <Link to={'/journal'} className="bg-sky-500 hover:bg-sky-600 transition px-4 py-2 text-sm sm:text-base text-white rounded-md font-semibold shadow-md">
             Browse Latest Issue
           </Link>
-          <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-sky-600 transition px-4 py-2 text-sm sm:text-base rounded-md font-semibold shadow-md">
+          <Link to={'/researcher/submit_research'} className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-sky-600 transition px-4 py-2 text-sm sm:text-base rounded-md font-semibold shadow-md">
             Submit Research
-          </button>
+          </Link>
         </div>
       </div>
     </section>

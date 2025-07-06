@@ -22,6 +22,7 @@ import Profile from "./components/Common/Profile";
 import Journal_hero_section from "./pages/userPages/JournalsPage/Journal_hero_section";
 import Journal_details from "./pages/userPages/JournalsPage/Journal_details";
 import EditorPage from "./pages/userPages/EditorPage/EditorPage";
+import SubmiteJournal from "./pages/userPages/UserControlPane/SubmiteJournal";
 
 
 const router = createBrowserRouter([
@@ -56,10 +57,14 @@ const router = createBrowserRouter([
 
 
 
+      { path : "/researcher", element : <ReseacherLayout/>,
+        children : [
+          { path : "submit_research", element : <SubmiteJournal/>}
+        ]
+      },
       { path : "/reviewer", element : <ReviewerLayout/>},
       { path : "/admin", element : <AdminLayout/>},
       { path : "/editor", element : <EditorLayout/>},
-      { path : "/researcher", element : <ReseacherLayout/>},
       { path : "/sub-editor", element : <SubEditorLayout/>}
     ]
   }

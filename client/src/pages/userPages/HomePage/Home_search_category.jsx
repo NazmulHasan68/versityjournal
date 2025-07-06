@@ -10,6 +10,7 @@ import {
   Briefcase,
   Brain,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const categories = [
   { title: "Science & Technology", count: 142, icon: <FlaskConical className="text-sky-500 md:w-8 md:h-8 w-4 h-4" /> },
@@ -45,7 +46,8 @@ export default function Home_search_category() {
       {/* Category Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-8">
         {categories.map((cat, index) => (
-          <div
+          <Link
+            to={'/journal'}
             key={index}
             className="flex items-center md:gap-4 gap-2 md:p-5 p-3 cursor-pointer bg-white rounded-xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100"
           >
@@ -58,7 +60,7 @@ export default function Home_search_category() {
               </h3>
               <p className="md:text-sm text-xs text-gray-400">{cat.count} articles</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

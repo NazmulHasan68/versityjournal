@@ -104,9 +104,9 @@ export default function Home_features_aritical() {
                     </div>
                 </div>
 
-                <button className="mt-5 inline-block text-xs md:text-sm text-sky-600 hover:underline font-medium">
+                <Link to={'/journal/details'} className="mt-5 inline-block text-xs md:text-sm text-sky-600 hover:underline font-medium">
                     Read Full Article →
-                </button>
+                </Link>
                 </div>
             </motion.div>
             ))}
