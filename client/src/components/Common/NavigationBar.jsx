@@ -16,18 +16,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function NavigationBar() {
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const { data, isLoading } = useCheckAuthQuery();
   const [logoutUser] = useLogoutUserMutation();
 
-  const searchHandler = (e) => {
-    e.preventDefault();
-    navigate(`/search?query=${searchQuery}`);
-    setSearchQuery("");
-  };
+  // const searchHandler = (e) => {
+  //   e.preventDefault();
+  //   navigate(`/search?query=${searchQuery}`);
+  //   setSearchQuery("");
+  // };
 
   const handleLogout = async () => {
     try {
@@ -43,7 +43,6 @@ export default function NavigationBar() {
 
   const profileImage = data?.user?.photoUrl || "https://ui-avatars.com/api/?name=User";
 
-  console.log(data?.user);
   
 
   return (
@@ -96,7 +95,7 @@ export default function NavigationBar() {
                       alt="User Profile"
                     />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="mt-2">
+                  <DropdownMenuContent className="mt-2 bg-sky-50">
                     <DropdownMenuLabel className="text-sky-600 font-bold bg-slate-100 rounded-md">
                       {data?.user?.name}
                     </DropdownMenuLabel>

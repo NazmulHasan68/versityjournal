@@ -4,6 +4,9 @@ export default {
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+   optimizeDeps: {
+    include: ['react-player'],
+  },
   theme: {
   	extend: {
   		colors: {

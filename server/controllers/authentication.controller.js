@@ -11,7 +11,7 @@ import {
 import crypto from "crypto";
 
 export const signup = async (req, res) => {
-  console.log("Incoming Signup Data:", req.body);
+
   const { name, email, password } = req.body;
   try {
     if (!name || !email || !password) {
@@ -96,8 +96,7 @@ export const logout = async (req, res) => {
 
 export const verifyEmail = async (req, res) => {
   const { verificationToken } = req.body;
-  console.log();
-  
+
   try {
     const user = await User.findOne({
       verificationToken: verificationToken,
@@ -224,5 +223,30 @@ export const checkAuth = async (req, res) => {
   } catch (error) {
     console.log("error checking auth", error);
     res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+
+
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    if (!users || users.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No users found!" });
+    }
+
+    // Remove password from each user object
+    const sanitizedUsers = users.map(user => {
+      const { password, ...rest } = user.toObject(); 
+      return rest;
+    });
+
+    res.status(200).json({ success: true, users: sanitizedUsers });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };

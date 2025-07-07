@@ -112,6 +112,13 @@ export const authApi = createApi({
         }
       },
     }),
+
+    getUsers:builder.query({
+      query : () => ({
+        url : "getusers",
+        method : "GEt"
+      })
+    })
   }),
 });
 
@@ -121,7 +128,8 @@ export const {
   useLoginUserMutation,
   useLogoutUserMutation,
   useForgotPasswordMutation,
-  useForgotPasswordCodeMutation,   // <-- Add this here
+  useForgotPasswordCodeMutation, 
   useResetPasswordMutation,
   useCheckAuthQuery,
+  useGetUsersQuery,
 } = authApi;

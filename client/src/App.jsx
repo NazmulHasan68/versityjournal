@@ -23,6 +23,15 @@ import Journal_hero_section from "./pages/userPages/JournalsPage/Journal_hero_se
 import Journal_details from "./pages/userPages/JournalsPage/Journal_details";
 import EditorPage from "./pages/userPages/EditorPage/EditorPage";
 import SubmiteJournal from "./pages/userPages/UserControlPane/SubmiteJournal";
+import ThesisDetails from "./pages/userPages/UserControlPane/ThesisDetails";
+import Admin_user_management from "./pages/Admin pages/adiminPanel/Admin_user_management";
+import ThesisAndArticleManagement from "./pages/Admin pages/adiminPanel/ThesisAndArticleManagement";
+import Admin_review_assignment from "./pages/Admin pages/adiminPanel/Admin_review_assignment";
+import Admin_revisions_handling from "./pages/Admin pages/adiminPanel/Admin_revisions_handling";
+import Admin_suuport from "./pages/Admin pages/adiminPanel/Admin_suuport";
+import Admin_dashboard from "./pages/Admin pages/adiminPanel/Admin_dashboard";
+import Admin_view_thesis from "./pages/Admin pages/adiminPanel/Admin_view_thesis";
+import VideoPlayer from "./components/Common/VideoPlayer";
 
 
 const router = createBrowserRouter([
@@ -54,16 +63,28 @@ const router = createBrowserRouter([
       { path : "/contact" , element : <ContactPage/>},
       { path : "/profile" , element : <Profile/>},
       { path : "/editor", element : <EditorPage/>},
+      { path : "/video" , element :<VideoPlayer/>},
 
 
 
       { path : "/researcher", element : <ReseacherLayout/>,
         children : [
-          { path : "submit_research", element : <SubmiteJournal/>}
+          { path : "submit_research", element : <SubmiteJournal/>},
+          { path : "thesis", element:<ThesisDetails/>}
+        ]
+      },
+      { path : "/admin", element : <AdminLayout/>,
+        children : [
+          { path : 'dashboard', element : <Admin_dashboard/>},
+          { path : 'thesis_article_management', element : <ThesisAndArticleManagement/>},
+          { path : "thesis_article_management/view", element : <Admin_view_thesis/>},
+          { path : 'user_management', element : <Admin_user_management/>},
+          { path : 'review_assignment', element : <Admin_review_assignment/>},
+          { path : 'revisions_handling', element : <Admin_revisions_handling/>},
+          { path : 'supports', element : <Admin_suuport/>},
         ]
       },
       { path : "/reviewer", element : <ReviewerLayout/>},
-      { path : "/admin", element : <AdminLayout/>},
       { path : "/editor", element : <EditorLayout/>},
       { path : "/sub-editor", element : <SubEditorLayout/>}
     ]

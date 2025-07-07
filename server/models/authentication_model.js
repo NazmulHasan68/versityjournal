@@ -47,9 +47,6 @@ const userSchema = new mongoose.Schema({
   CV: {
     type: String
   },
-
-
-  
   resetPasswordToken: {
     type: String
   },
