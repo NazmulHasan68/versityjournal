@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './RootReducer';
 import { authApi } from './ApiController/authApi';
 import { thesisApi } from './ApiController/thesisApi';
+import { assignApi } from './ApiController/assignApi';
 
 export const appStore = configureStore({
   reducer: rootReducer,
@@ -9,6 +10,7 @@ export const appStore = configureStore({
     defaultMiddleware().concat(
       authApi.middleware,
       thesisApi.middleware,
+      assignApi.middleware
     ),
 });
 

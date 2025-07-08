@@ -9,6 +9,7 @@ import { dbconnection } from './utills/dbConnection.js';
 
 import authanticationRoute from './routes/authentication.route.js';
 import thesisRoute from './routes/thesis_route.js';
+import thesisAssignRoute from './routes/thesisAssignRoute.js'
 
 // Handle __dirname in ES module scope
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +49,7 @@ app.use(
 // ---------------------
 app.use('/api/auth', authanticationRoute);
 app.use('/api/thesis', thesisRoute);
+app.use('/api/assign', thesisAssignRoute);
 
 // ---------------------
 // Serve thesis uploads

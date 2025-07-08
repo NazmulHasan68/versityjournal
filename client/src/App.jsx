@@ -32,6 +32,21 @@ import Admin_suuport from "./pages/Admin pages/adiminPanel/Admin_suuport";
 import Admin_dashboard from "./pages/Admin pages/adiminPanel/Admin_dashboard";
 import Admin_view_thesis from "./pages/Admin pages/adiminPanel/Admin_view_thesis";
 import VideoPlayer from "./components/Common/VideoPlayer";
+import Sub_ReviewList from "./pages/Admin pages/SubEditorPanel/Sub_ReviewList";
+import Sub_ReviewDetail from "./pages/Admin pages/SubEditorPanel/Sub_ReviewDetail";
+import SubmissionHistory from "./pages/Admin pages/SubEditorPanel/SubmissionHistory";
+import SubEditorMessages from "./pages/Admin pages/SubEditorPanel/SubEditorMessages";
+import SubEditorDashboard from "./pages/Admin pages/SubEditorPanel/SubEditorDashboard";
+import ReviewerDashboard from "./pages/Admin pages/ReviewerPanel/ReviewerDashboard";
+import ReviewAssignments from "./pages/Admin pages/ReviewerPanel/ReviewAssignments";
+import ReviewDetail from "./pages/Admin pages/ReviewerPanel/ReviewDetail";
+import ReviewerMessages from "./pages/Admin pages/ReviewerPanel/ReviewerMessages";
+import Reviewer_accept from "./pages/Admin pages/ReviewerPanel/Reviewer_accept";
+import Reviewer_Rejceted from "./pages/Admin pages/ReviewerPanel/Reviewer_Rejceted";
+import ResearcherDashboard from "./pages/Admin pages/ResearcherPanel/ResearcherDashboard";
+import Researcher_thesislist from "./pages/Admin pages/ResearcherPanel/Researcher_thesislist";
+import Researcher_thesis_details from "./pages/Admin pages/ResearcherPanel/Researcher_thesis_details";
+import Reacher_co_author from "./pages/Admin pages/ResearcherPanel/Reacher_co_author";
 
 
 const router = createBrowserRouter([
@@ -67,10 +82,14 @@ const router = createBrowserRouter([
 
 
 
-      { path : "/researcher", element : <ReseacherLayout/>,
-        children : [
-          { path : "submit_research", element : <SubmiteJournal/>},
-          { path : "thesis", element:<ThesisDetails/>}
+      {
+        path: "/researcher",
+        element: <ReseacherLayout />,
+        children: [
+          { path: "", element: <ResearcherDashboard /> },                   
+          { path: "thesislist", element: <Researcher_thesislist /> },                 
+          { path: "thesis/:thesisId", element: <Researcher_thesis_details /> },        
+          { path: "co-author", element: <Reacher_co_author /> },        
         ]
       },
       { path : "/admin", element : <AdminLayout/>,
@@ -84,9 +103,37 @@ const router = createBrowserRouter([
           { path : 'supports', element : <Admin_suuport/>},
         ]
       },
-      { path : "/reviewer", element : <ReviewerLayout/>},
-      { path : "/editor", element : <EditorLayout/>},
-      { path : "/sub-editor", element : <SubEditorLayout/>}
+      {
+        path: "/sub-editor",
+        element: <SubEditorLayout />,
+        children: [
+          { path: 'review', element: <Sub_ReviewList /> },
+          { path: 'review/:thesisId', element: <Sub_ReviewDetail /> },
+          { path: 'messages', element: <SubEditorMessages /> }, 
+          { path: 'history', element: <SubmissionHistory /> }, 
+          { path: '', element: <SubEditorDashboard /> }, 
+        ]
+      },
+      {
+        path: "/reviewer",
+        element: <ReviewerLayout />,
+        children: [
+          { path: "", element: <ReviewerDashboard /> }, // default: /reviewer
+          { path: "assignments", element: <ReviewAssignments /> }, // /reviewer/assignments
+          { path: "assignments/:id", element: <ReviewDetail /> }, // /reviewer/assignments/123
+          { path: "messages", element: <ReviewerMessages /> }, // /reviewer/messages
+          { path: "accepted", element: <Reviewer_accept/>},
+          { path: "rejected", element : <Reviewer_Rejceted/>}
+        ]
+      },
+      { path : "/editor", element : <EditorLayout/>, // i will work with this part if needed
+        children : [
+          { path : 'dashboard', element:<AboutPage/>},
+          { path : "Assigned Submissions"},
+          { path : "Reviewer Management"},
+          { path : "Messaging"},
+        ]
+      },
     ]
   }
 ]);

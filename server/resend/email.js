@@ -5,7 +5,13 @@ import {
   sendUrlEmailTemplate,
   resetSuccessEmailTemplate,
 } from "./email-template.js";
+import { sendEmailToResearcherTemplate, sendEmailToSubEditorTemplate } from "./email_assign_template.js";
 
+
+
+//=============================================================================================
+//                                       Authentication
+// ============================================================================================
 export const sendVerificationEmail = async (email, verificationToken) => {
   try {
     const { data, error } = await resend.emails.send({
@@ -24,8 +30,6 @@ export const sendVerificationEmail = async (email, verificationToken) => {
 };
 
 
-
-
 export const sendWelcomeEmail = async (email, name) => {
   try {
     const { data, error } = await resend.emails.send({
@@ -38,7 +42,6 @@ export const sendWelcomeEmail = async (email, name) => {
     console.log("error sending welcome email", error);
   }
 };
-
 
 
 export const sendPasswordResetEmail = async (email, resetURL) => {
@@ -59,14 +62,6 @@ export const sendPasswordResetEmail = async (email, resetURL) => {
 };
 
 
-
-
-
-
-
-
-
-
 export const sendResetSuccessEmail = async (email) => {
   try {
     const html = resetSuccessEmailTemplate();
@@ -83,3 +78,49 @@ export const sendResetSuccessEmail = async (email) => {
     console.log("Error sending password reset success email", error);
   }
 };
+
+
+//=============================================================================================
+//                                       Assgin thesis
+// ============================================================================================
+
+export const sendEmailToSubEditor = async (email, thesisTitle, thesisId) => {
+  const { subject, html } = sendEmailToSubEditorTemplate({ thesisTitle, thesisId });
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "Journal <onboarding@resend.dev>",
+      to: [email],
+      subject,
+      html,
+    });
+
+    console.log("Email sent sucessfully!");
+    
+    if (error) throw error;
+    return data;
+  } catch (err) {
+    console.error("Error sending sub-editor email:", err);
+    throw new Error("Failed to send email to sub-editor.");
+  }
+};
+
+export const sendEmailToResearcher = async (email, thesisTitle, status, thesisId) => {
+  const { subject, html } = sendEmailToResearcherTemplate({ thesisTitle, status, thesisId });
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: "Journal <onboarding@resend.dev>",
+      to: [email],
+      subject,
+      html,
+    });
+    console.log("Email sent sucessfully!");
+    if (error) throw error;
+    return data;
+  } catch (err) {
+    console.error("Error sending researcher email:", err);
+    throw new Error("Failed to send email to researcher.");
+  }
+};
+// ==============================================================================================

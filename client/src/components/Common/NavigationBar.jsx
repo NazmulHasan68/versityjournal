@@ -103,7 +103,7 @@ export default function NavigationBar() {
                       {data?.user?.role === "researcher" && (
                       <DropdownMenuItem>
                         <Link to="/researcher" className="text-sky-700 hover:text-rose-500">
-                          Reviewer Dashboard
+                          Researcher Dashboard
                         </Link>
                       </DropdownMenuItem>
                       )}
