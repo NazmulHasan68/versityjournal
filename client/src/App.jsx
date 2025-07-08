@@ -47,6 +47,8 @@ import ResearcherDashboard from "./pages/Admin pages/ResearcherPanel/ResearcherD
 import Researcher_thesislist from "./pages/Admin pages/ResearcherPanel/Researcher_thesislist";
 import Researcher_thesis_details from "./pages/Admin pages/ResearcherPanel/Researcher_thesis_details";
 import Reacher_co_author from "./pages/Admin pages/ResearcherPanel/Reacher_co_author";
+import Sub_editor_under_review from "./pages/Admin pages/SubEditorPanel/Sub_editor_under_review";
+import Sub_editor_under_details from "./pages/Admin pages/SubEditorPanel/Sub_editor_under_details";
 
 
 const router = createBrowserRouter([
@@ -109,6 +111,8 @@ const router = createBrowserRouter([
         children: [
           { path: 'review', element: <Sub_ReviewList /> },
           { path: 'review/:thesisId', element: <Sub_ReviewDetail /> },
+          { path: 'under_review', element : <Sub_editor_under_review/>},
+          { path: 'under_review/:thesisId', element : <Sub_editor_under_details/>},
           { path: 'messages', element: <SubEditorMessages /> }, 
           { path: 'history', element: <SubmissionHistory /> }, 
           { path: '', element: <SubEditorDashboard /> }, 
@@ -118,15 +122,15 @@ const router = createBrowserRouter([
         path: "/reviewer",
         element: <ReviewerLayout />,
         children: [
-          { path: "", element: <ReviewerDashboard /> }, // default: /reviewer
-          { path: "assignments", element: <ReviewAssignments /> }, // /reviewer/assignments
-          { path: "assignments/:id", element: <ReviewDetail /> }, // /reviewer/assignments/123
-          { path: "messages", element: <ReviewerMessages /> }, // /reviewer/messages
+          { path: "", element: <ReviewerDashboard /> }, 
+          { path: "assignments", element: <ReviewAssignments /> }, 
+          { path: "assignments/:id", element: <ReviewDetail /> }, 
+          { path: "messages", element: <ReviewerMessages /> }, 
           { path: "accepted", element: <Reviewer_accept/>},
           { path: "rejected", element : <Reviewer_Rejceted/>}
         ]
       },
-      { path : "/editor", element : <EditorLayout/>, // i will work with this part if needed
+      { path : "/editor", element : <EditorLayout/>, 
         children : [
           { path : 'dashboard', element:<AboutPage/>},
           { path : "Assigned Submissions"},

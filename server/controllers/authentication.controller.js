@@ -250,3 +250,35 @@ export const getUsers = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+
+
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId
+
+    const updateData = {
+      name: req.body.name,
+      versity: req.body.versity,
+      profession: req.body.profession,
+      country: req.body.country,
+      subject: req.body.subject,
+    };
+
+    if (req.files?.photo?.[0]) {
+      updateData.photo = `/public/thesis/${req.files.photo[0].filename}`;
+    }
+    if (req.files?.CV?.[0]) {
+      updateData.CV = `/public/thesis/${req.files.CV[0].filename}`;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ success: false, message: "Update failed" });
+  }
+};

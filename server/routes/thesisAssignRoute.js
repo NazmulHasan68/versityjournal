@@ -8,12 +8,13 @@ import {
   getAssignmentsByReviewer,
   getAssignmentsBySubEditor,
 } from "../controllers/thesisAssignController.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 
 router.post("/assignments", createAssignment);
 router.get("/assignments/thesis/:thesisId", getAssignmentByThesis);
-router.patch("/assignments/:id/note", addNote);
+router.patch("/assignments/:id/note",verifyToken, addNote);
 router.patch("/assignments/:id/status", updateStatus);
 
 router.get("/assignments", getAllAssignments);

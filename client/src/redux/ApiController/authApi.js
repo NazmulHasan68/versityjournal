@@ -118,7 +118,16 @@ export const authApi = createApi({
         url : "getusers",
         method : "GEt"
       })
-    })
+    }),
+
+    updateProfile: builder.mutation({
+      query: (formData) => ({
+        url: "/update-profile",
+        method: "PUT",
+        body: formData,
+      }),
+    }),
+
   }),
 });
 
@@ -132,4 +141,5 @@ export const {
   useResetPasswordMutation,
   useCheckAuthQuery,
   useGetUsersQuery,
+  useUpdateProfileMutation
 } = authApi;

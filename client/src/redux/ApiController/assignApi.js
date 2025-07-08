@@ -29,18 +29,29 @@ export const assignApi = createApi({
 
     // Add note to assignment (PATCH /assignments/:id/note)
     addNote: builder.mutation({
-      query: ({ id, message, userId }) => ({
-        url: `/assignments/${id}/note`,
+      query: ({ thesisId, comment, userId }) => ({
+        url: `/assignments/${thesisId}/note`,
         method: "PATCH",
-        body: { message, userId },
+        body: { comment, userId },
       }),
       invalidatesTags: (result, error, { id }) => [{ type: "Assignment", id }],
     }),
 
+     // Add note to assignment (PATCH /assignments/:id/note)
+    addNoteAndAssignReviewer: builder.mutation({
+      query: ({ thesisId, comment, assignedReviewer }) => ({
+        url: `/assignments/${thesisId}/note`,
+        method: "PATCH",
+        body: { comment, assignedReviewer },
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Assignment", id }],
+    }),
+
+
     // Update assignment status (PATCH /assignments/:id/status)
     updateStatus: builder.mutation({
-      query: ({ id, status }) => ({
-        url: `/assignments/${id}/status`,
+      query: ({ thesisId, status }) => ({
+        url: `/assignments/${thesisId}/status`,
         method: "PATCH",
         body: { status },
       }),
@@ -70,6 +81,7 @@ export const assignApi = createApi({
 export const {
   useCreateAssignmentMutation,
   useGetAssignmentByThesisQuery,
+  useAddNoteAndAssignReviewerMutation,
   useAddNoteMutation,
   useUpdateStatusMutation,
   useGetAllAssignmentsQuery,

@@ -105,3 +105,35 @@ export const sendEmailToResearcherTemplate = ({ thesisTitle, status, thesisId })
     `,
   };
 };
+
+
+export const sendEmailForUpdateStatusAndMessageTemplate = (status, message) => {
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px;">
+      <h2 style="color: #2c3e50;">Hello Researcher,</h2>
+
+      <p>We would like to inform you that the status of your submitted thesis has been updated to:</p>
+      <p style="font-size: 18px;">
+        <strong style="color: ${status === "accepted" ? "#2ecc71" : status === "rejected" ? "#e74c3c" : "#f39c12"};">
+          ${status.toUpperCase()}
+        </strong>
+      </p>
+
+      <p><strong>Editor's Comment:</strong></p>
+      <blockquote style="border-left: 4px solid #ccc; padding-left: 15px; color: #555; font-style: italic;">
+        ${message}
+      </blockquote>
+
+      <p>If you have any questions, feel free to contact our editorial team.</p>
+
+      <p>Best regards,<br/>The Journal Team</p>
+
+      <hr style="margin-top: 30px;"/>
+      <footer style="font-size: 12px; color: #999;">
+        This is an automated message. Please do not reply to this email.
+      </footer>
+    </div>
+  `;
+};
+
+

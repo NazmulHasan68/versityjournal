@@ -30,13 +30,13 @@ export const thesisApi = createApi({
     }),
 
     // Update thesis
-    updateThesis: builder.mutation({
-      query: ({ id, formData }) => ({
-        url: `/${id}`,
-        method: "PUT",
-        body: formData,
-      }),
+   updateThesis: builder.mutation({
+    query: ({ id, formData }) => ({
+      url: `/${id}`,
+      method: "PUT",
+      body: formData,
     }),
+  }),
 
     // Delete thesis
     deleteThesis: builder.mutation({
@@ -53,6 +53,7 @@ export const thesisApi = createApi({
         method: "PUT",
       }),
     }),
+
   }),
 });
 

@@ -1,3 +1,4 @@
+
 // src/pages/Sub_ReviewList.jsx
 import React, { useState } from "react";
 import { useGetAssignmentsBySubEditorQuery } from "@/redux/ApiController/assignApi";
@@ -6,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-export default function Sub_ReviewList() {
+export default function Sub_editor_under_review() {
   const { data: user } = useCheckAuthQuery();
   const { data } = useGetAssignmentsBySubEditorQuery(user?.user._id);
   const [search, setSearch] = useState("");
@@ -15,7 +16,7 @@ export default function Sub_ReviewList() {
 
   const filtered = (data?.data || []).filter(
     (item) =>
-      item.status === "submitted" &&
+      item.status === "under_review" &&
       ((item?.thesisId?.title?.toLowerCase().includes(search.toLowerCase())) ||
        (item?.thesisId?.author?.name?.toLowerCase().includes(search.toLowerCase())))
   );
@@ -25,7 +26,7 @@ export default function Sub_ReviewList() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 mt-10">
-      <h1 className="text-2xl font-semibold mb-6">Submitted Thesis List</h1>
+      <h1 className="text-2xl font-semibold mb-6">Under Review Thesis List</h1>
 
       <Input
         type="text"
@@ -62,7 +63,7 @@ export default function Sub_ReviewList() {
                 </td>
                 <td className="px-4 py-2">
                   <Link
-                    to={`/sub-editor/review/${item.thesisId._id}`}
+                    to={`/sub-editor/under_review/${item.thesisId._id}`}
                     className="text-blue-600 hover:underline"
                   >
                     View Details

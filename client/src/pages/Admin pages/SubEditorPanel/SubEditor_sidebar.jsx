@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 const subEditorLinks = [
   { path: "", label: "Dashboard", icon: LayoutDashboard },
   { path: "review", label: "Reviews", icon: ClipboardCheck },
+  { path: "under_review", label:"Under Review", icon:Clock},
   { path: "messages", label: "Messages", icon: MessageSquare },
   { path: "history", label: "History", icon: Clock },
 ];
