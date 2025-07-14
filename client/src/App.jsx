@@ -81,7 +81,8 @@ const router = createBrowserRouter([
       { path : "/profile" , element : <Profile/>},
       { path : "/editor", element : <EditorPage/>},
       { path : "/video" , element :<VideoPlayer/>},
-
+      { path : "/submit_research" , element : <SubmiteJournal/>},
+      { path : "/thi" , element : <ThesisDetails/>},
 
 
       {
@@ -124,7 +125,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <ReviewerDashboard /> }, 
           { path: "assignments", element: <ReviewAssignments /> }, 
-          { path: "assignments/:id", element: <ReviewDetail /> }, 
+          { path: "assignments/:thesisId", element: <ReviewDetail /> }, 
           { path: "messages", element: <ReviewerMessages /> }, 
           { path: "accepted", element: <Reviewer_accept/>},
           { path: "rejected", element : <Reviewer_Rejceted/>}

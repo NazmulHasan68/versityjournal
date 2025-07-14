@@ -40,7 +40,7 @@ export const assignApi = createApi({
      // Add note to assignment (PATCH /assignments/:id/note)
     addNoteAndAssignReviewer: builder.mutation({
       query: ({ thesisId, comment, assignedReviewer }) => ({
-        url: `/assignments/${thesisId}/note`,
+        url: `/assignments/${thesisId}/note_and_assign`,
         method: "PATCH",
         body: { comment, assignedReviewer },
       }),

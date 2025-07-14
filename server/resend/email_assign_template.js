@@ -137,3 +137,23 @@ export const sendEmailForUpdateStatusAndMessageTemplate = (status, message) => {
 };
 
 
+export const sendEmailToReviewerTemplate = (thesisId) => {
+  const url = `${process.env.CLIENT_URL}/reviewer/assignments/${thesisId}`;
+
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <h2>📝 New Thesis Assigned for Review</h2>
+      <p>Dear Reviewer,</p>
+      <p>You have been assigned a new thesis to review. Please read the thesis and share your feedback or comments as soon as possible.</p>
+      <p>Click the button below to view and review the thesis:</p>
+      <a href="${url}" 
+         style="display: inline-block; padding: 10px 20px; margin-top: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
+         🔍 Review Thesis
+      </a>
+      <p>If the button doesn't work, copy and paste the following link in your browser:</p>
+      <p><a href="${url}">${url}</a></p>
+      <p>Other wise check your Dashboard </p>
+      <p>Best regards,<br/>Journal Submission Team</p>
+    </div>
+  `;
+};

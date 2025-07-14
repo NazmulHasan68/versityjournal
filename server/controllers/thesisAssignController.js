@@ -1,7 +1,7 @@
 import { User } from "../models/authentication_model.js";
 import ThesisAssignment from "../models/thesisAssign.js";
 import Thesis from "../models/thesis_model.js";
-import { sendEmailForStatus, sendEmailForUpdateStatusandMessage, sendEmailToResearcher, sendEmailToSubEditor } from "../resend/email.js";
+import { sendEmailForStatus, sendEmailForUpdateStatusandMessage, sendEmailToResearcher, sendEmailToReviwer, sendEmailToSubEditor } from "../resend/email.js";
 
 
 
@@ -40,13 +40,13 @@ export const createAssignment = async (req, res) => {
     }
 
     // ✅ Update the status in the Thesis document
-    thesis.status = status || "submitted";
+    thesis.status = status || "under_review";
     await thesis.save();
 
     // Send email notifications
     try {
       await sendEmailToResearcher(thesis.author.email, thesis.title, assignment.status, thesis._id);
-      await sendEmailToSubEditor(subEditor.email, thesis.title, thesis._id);
+      await sendEmailToSubEditor("n47712338@gmail.com", thesis.title, thesis._id);
     } catch (emailError) {
       console.error("Email error:", emailError);
     }
@@ -91,8 +91,6 @@ export const addNote = async (req, res) => {
     const { comment } = req.body;
     const userId = req.userId;
 
-    console.log(comment, userId, id);
-
     if (!comment || !userId) {
       return res.status(400).json({ success: false, message: "Message and userId required" });
     }
@@ -124,60 +122,114 @@ export const addNote = async (req, res) => {
 
 
 
+
+// ================================= ✅ Task: Assign Reviewer & Add Comment  ===== Reviwer
 export const addNoteAndAssignReviewer = async (req, res) => {
   try {
-    const { id } = req.params;  
-    const { comment , assignedReviewer} = req.body;
+    const { id } = req.params;
+    const { comment, assignedReviewer } = req.body;
     const userId = req.userId;
 
-    if (!comment || !userId) {
-      return res.status(400).json({ success: false, message: "Message and userId required" });
+    // Validate required fields
+    if (!comment || !userId || !assignedReviewer) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment, userId, and Reviewer ID are required",
+      });
     }
 
-    // Find the assignment by thesisId
-    const assignment = await ThesisAssignment.findOne({ thesisId : id });
+    // Find thesis assignment
+    const assignment = await ThesisAssignment.findOne({ thesisId: id });
     if (!assignment) {
-      return res.status(404).json({ success: false, message: "Assignment not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Assignment not found",
+      });
     }
 
+    // Find thesis and author
     const thesis = await Thesis.findById(id).populate("author");
+
     if (!thesis || !thesis.author?.email) {
-      return res.status(404).json({ success: false, message: "Thesis or author not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Thesis or author not found",
+      });
     }
 
+    // Find reviewer
+    const reviewer = await User.findById(assignedReviewer);
+    if (!reviewer) {
+      return res.status(404).json({
+        success: false,
+        message: "Reviewer not found!",
+      });
+    }
 
-    // ✅ Use 'message' to match the schema
+    // Push comment
     assignment.notes.push({ message: comment, by: userId });
+
+   // Ensure assignedReviewer is an array
+    if (!Array.isArray(assignment.assignedReviewer)) {
+      assignment.assignedReviewer = [];
+    }
+
+    // Avoid duplicate
+    if (!assignment.assignedReviewer.includes(assignedReviewer)) {
+      assignment.assignedReviewer.push(assignedReviewer);
+    }
+
+    // Save updated assignment
     await assignment.save();
 
-    await sendEmailForUpdateStatusandMessage(thesis.author.email, assignment.status, comment)
+    // Send notification to researcher
+    await sendEmailForUpdateStatusandMessage(
+      thesis.author.email,
+      assignment.status,
+      comment
+    );
 
-    res.status(200).json({ success: true, data: assignment });
+    // Send notification to reviewer
+    await sendEmailToReviwer(thesis.author.email, assignment.thesisId);
+
+    // Success response
+    res.status(200).json({
+      success: true,
+      message: "Note added and reviewer assigned successfully",
+      data: assignment,
+    });
   } catch (error) {
-    console.error("Add Note error:", error);
-    res.status(500).json({ success: false, message: error.message });
+    console.error("❌ Error in addNoteAndAssignReviewer:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while assigning reviewer",
+      error: error.message,
+    });
   }
 };
 
 
 
-// Update assignment status
+// Update assignment status ============================ for status
 export const updateStatus = async (req, res) => {
   try {
     const { id } = req.params;  
     const { status } = req.body;
 
+ 
     if (!status) {
       return res.status(400).json({ success: false, message: "Status is required" });
     }
 
     const assignment = await ThesisAssignment.findOneAndUpdate(
-      { thesisId: id },     // ✅ Proper filter
+      { thesisId: id },     
       { status },
       { new: true }
     );
 
+    
     const thesis = await Thesis.findById(id).populate("author");
+    
     if (!thesis || !thesis.author?.email) {
       return res.status(404).json({ success: false, message: "Thesis or author not found" });
     }
@@ -188,7 +240,7 @@ export const updateStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: "Assignment not found" });
     }
 
-    sendEmailForStatus(thesis.author.email, status)
+    await sendEmailForStatus(thesis.author.email, status)
 
     res.status(200).json({ success: true, data: assignment });
   } catch (error) {
@@ -197,6 +249,18 @@ export const updateStatus = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+//=============================================
+
+//=============================================
 
 
 
@@ -225,7 +289,14 @@ export const getAssignmentsByReviewer = async (req, res) => {
     const assignments = await ThesisAssignment.find({ assignedReviewer: reviewerId })
       .populate("assignedReviewer", "name email role")
       .populate("assignedSubEditor", "name email role")
-      .populate("notes.by", "name email");
+      .populate("notes.by", "name email")
+      .populate({
+        path:"thesisId",
+        populate : {
+          path: "author", 
+          model: "User",  
+        }}
+      )
 
     res.status(200).json({ success: true, data: assignments });
   } catch (error) {

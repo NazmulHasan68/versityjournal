@@ -7,10 +7,10 @@ const thesisAssignmentSchema = new mongoose.Schema(
       ref: "Thesis",
       required: true,
     },
-    assignedReviewer: {
-      type: mongoose.Schema.Types.ObjectId,
+     assignedReviewer: {
+      type: [mongoose.Schema.Types.ObjectId],  // 🔄 Changed to array
       ref: "User",
-      required: false,
+      default: [],
     },
     assignedSubEditor: {
       type: mongoose.Schema.Types.ObjectId,

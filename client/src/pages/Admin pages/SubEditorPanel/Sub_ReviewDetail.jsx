@@ -1,5 +1,4 @@
 // src/pages/Sub_ReviewDetail.jsx
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetThesisByIdQuery } from "@/redux/ApiController/thesisApi";
@@ -29,7 +28,7 @@ export default function Sub_ReviewDetail() {
   const { data: thesis, isLoading, isError } = useGetThesisByIdQuery(thesisId);
   const [updateStatus] = useUpdateStatusMutation();
   const [addNote] = useAddNoteMutation();
- const [addNoteAndAssignReviewer] = useAddNoteAndAssignReviewerMutation();
+  const [addNoteAndAssignReviewer] = useAddNoteAndAssignReviewerMutation();
 
   const { data } = useGetUsersQuery();
   const subEditors =
@@ -55,6 +54,7 @@ export default function Sub_ReviewDetail() {
     try {
       
       if(status == "under_review"){
+        alert("here")
         await updateStatus({ thesisId, status }).unwrap();
         await addNoteAndAssignReviewer({ thesisId, comment, assignedReviewer }).unwrap();
         toast.success("Status, Comment & Reviewer assigned successfully");
@@ -64,7 +64,6 @@ export default function Sub_ReviewDetail() {
         toast.success("Status, Comment & Reviewer assigned successfully");
       }
     
-
       setComment("");
       setStatus("");
       setassignedReviewer("");

@@ -5,7 +5,7 @@ import {
   sendUrlEmailTemplate,
   resetSuccessEmailTemplate,
 } from "./email-template.js";
-import { sendEmailForUpdateStatusAndMessageTemplate, sendEmailToResearcherTemplate, sendEmailToSubEditorTemplate } from "./email_assign_template.js";
+import { sendEmailForUpdateStatusAndMessageTemplate, sendEmailToResearcherTemplate, sendEmailToReviewerTemplate, sendEmailToSubEditorTemplate } from "./email_assign_template.js";
 
 
 
@@ -123,7 +123,8 @@ export const sendEmailToResearcher = async (email, thesisTitle, status, thesisId
     throw new Error("Failed to send email to researcher.");
   }
 };
-// ==============================================================================================
+
+// ============================================================================================== add node and sent to reviwer
 export const sendEmailForUpdateStatusandMessage = async (email, status, message) => {
   try {
     const subject = `Your Thesis Status: ${status.toUpperCase()}`;
@@ -146,6 +147,30 @@ export const sendEmailForUpdateStatusandMessage = async (email, status, message)
     throw new Error("Failed to send email to researcher.");
   }
 };
+
+export const sendEmailToReviwer = async (email, thesisId) => {  // this email for reviewer
+  try {
+    const subject = `🆕 New Thesis Assigned for Review – Please Review & Comment`;
+    const html = sendEmailToReviewerTemplate(thesisId);
+
+    const { data, error } = await resend.emails.send({
+      from: "Journal <onboarding@resend.dev>",
+      to: [email],
+      subject,
+      html,
+    });
+
+    console.log("✅ Email sent successfully to Reviewer:", email);
+
+    if (error) throw error;
+    return data;
+  } catch (err) {
+    console.error("❌ Error sending email to Reviewer:", err);
+    throw new Error("Failed to send email to Reviewer.");
+  }
+};
+
+
 
 export const sendEmailForStatus = async (email, status) => {
   try {
