@@ -143,7 +143,7 @@ export const sendEmailToReviewerTemplate = (thesisId) => {
   return `
     <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
       <h2>📝 New Thesis Assigned for Review</h2>
-      <p>Dear Reviewer,</p>
+      <p>Hello Reviewer,</p>
       <p>You have been assigned a new thesis to review. Please read the thesis and share your feedback or comments as soon as possible.</p>
       <p>Click the button below to view and review the thesis:</p>
       <a href="${url}" 
@@ -157,3 +157,55 @@ export const sendEmailToReviewerTemplate = (thesisId) => {
     </div>
   `;
 };
+
+
+export const sendEmailToAdminTemplate = (thesisId) => {
+  const url = `${process.env.CLIENT_URL}/admin/thesis_article_management/${thesisId}`;
+
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <h2>📝 Paper Ready to Be Published</h2>
+      
+      <p>Dear Admin,</p>
+      
+      <p>
+        A new thesis has been submitted and is ready for your review. 
+        Please go through the thesis and provide your feedback or comments at your earliest convenience.
+      </p>
+      
+      <p>
+        Click the button below to view and manage the thesis:
+      </p>
+      
+      <a href="${url}" 
+         style="
+           display: inline-block;
+           padding: 10px 20px;
+           margin-top: 10px;
+           background-color: #007bff;
+           color: white;
+           text-decoration: none;
+           border-radius: 4px;
+         ">
+         🔍 Review Thesis
+      </a>
+
+      <p style="margin-top: 20px;">
+        If the button doesn't work, you can copy and paste the following link into your browser:
+      </p>
+
+      <p>
+        <a href="${url}">${url}</a>
+      </p>
+
+      <p>Alternatively, you can also check your admin dashboard for the new submission.</p>
+
+      <p>
+        Best regards,<br/>
+        <strong>Journal Submission Team</strong>
+      </p>
+    </div>
+  `;
+};
+
+

@@ -1,7 +1,7 @@
 import { User } from "../models/authentication_model.js";
 import ThesisAssignment from "../models/thesisAssign.js";
 import Thesis from "../models/thesis_model.js";
-import { sendEmailForStatus, sendEmailForUpdateStatusandMessage, sendEmailToResearcher, sendEmailToReviwer, sendEmailToSubEditor } from "../resend/email.js";
+import { sendEmailForStatus, sendEmailForUpdateStatusandMessage, sendEmailToAdmin, sendEmailToResearcher, sendEmailToReviwer, sendEmailToSubEditor } from "../resend/email.js";
 
 
 
@@ -207,6 +207,85 @@ export const addNoteAndAssignReviewer = async (req, res) => {
     });
   }
 };
+
+
+
+export const addAcceptsendAdmit = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment, assignedadmin } = req.body;
+    const userId = req.userId;
+
+    // Validate required fields
+    if (!comment || !userId || !assignedadmin) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment, userId, and Reviewer ID are required",
+      });
+    }
+
+    // Find thesis assignment
+    const assignment = await ThesisAssignment.findOne({ thesisId: id });
+    if (!assignment) {
+      return res.status(404).json({
+        success: false,
+        message: "Assignment not found",
+      });
+    }
+
+    // Find thesis and author
+    const thesis = await Thesis.findById(id).populate("author");
+
+    if (!thesis || !thesis.author?.email) {
+      return res.status(404).json({
+        success: false,
+        message: "Thesis or author not found",
+      });
+    }
+
+    // Find reviewer
+    const admin = await User.findById(assignedadmin);
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: "Admin not found!",
+      });
+    }
+
+    // Push comment
+    assignment.notes.push({ message: comment, by: userId });
+
+    // Save updated assignment
+    await assignment.save();
+
+    // Send notification to researcher
+    await sendEmailForUpdateStatusandMessage(
+      thesis.author.email,
+      assignment.status,
+      comment
+    );
+
+    // Send notification to admin ====> ( admin.email )
+    await sendEmailToAdmin(thesis.author.email, assignment.thesisId);
+
+    // Success response
+    res.status(200).json({
+      success: true,
+      message: "Note added and Admin assigned successfully",
+      data: assignment,
+    });
+
+
+  } catch (error) {
+    console.error("❌ Error in add Note And Assign Admin:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while assigning Admin",
+      error: error.message,
+    });
+  }
+};
+
 
 
 

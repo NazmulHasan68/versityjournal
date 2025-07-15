@@ -82,15 +82,21 @@ export default function ThesisAndArticleManagement() {
                       className={`inline-block px-2 py-1 rounded text-xs font-semibold ${
                         thesis.status === "submitted"
                           ? "bg-yellow-100 text-yellow-800"
-                          : thesis.status === "approved"
+                          : thesis.status === "under_review"
+                          ? "bg-blue-100 text-blue-800"
+                          : thesis.status === "accepted"
                           ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-600"
+                          : thesis.status === "published"
+                          ? "bg-indigo-100 text-indigo-700"
+                          : thesis.status === "rejected"
+                          ? "bg-red-100 text-red-600"
+                          : "bg-gray-100 text-gray-600"
                       }`}
                     >
                       {thesis.status}
                     </span>
                   </TableCell>
-                  <TableCell><Link to={'view'} state={thesis} className="hover:underline hover:text-blue-600 hover:font-semibold">View</Link></TableCell>
+                  <TableCell><Link to={`${thesis._id}`} state={thesis} className="hover:underline hover:text-blue-600 hover:font-semibold">View</Link></TableCell>
                 </TableRow>
               ))
             ) : (

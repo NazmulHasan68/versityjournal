@@ -5,7 +5,7 @@ import {
   sendUrlEmailTemplate,
   resetSuccessEmailTemplate,
 } from "./email-template.js";
-import { sendEmailForUpdateStatusAndMessageTemplate, sendEmailToResearcherTemplate, sendEmailToReviewerTemplate, sendEmailToSubEditorTemplate } from "./email_assign_template.js";
+import { sendEmailForUpdateStatusAndMessageTemplate, sendEmailToAdminTemplate, sendEmailToResearcherTemplate, sendEmailToReviewerTemplate, sendEmailToSubEditorTemplate } from "./email_assign_template.js";
 
 
 
@@ -167,6 +167,29 @@ export const sendEmailToReviwer = async (email, thesisId) => {  // this email fo
   } catch (err) {
     console.error("❌ Error sending email to Reviewer:", err);
     throw new Error("Failed to send email to Reviewer.");
+  }
+};
+
+
+export const sendEmailToAdmin = async (email, thesisId) => {  // this email for Admin for published!
+  try {
+    const subject = `Thesis Ready For Published!`;
+    const html = sendEmailToAdminTemplate(thesisId);
+
+    const { data, error } = await resend.emails.send({
+      from: "Journal <onboarding@resend.dev>",
+      to: [email],
+      subject,
+      html,
+    });
+
+    console.log("✅ Email sent successfully to Admin:", email);
+
+    if (error) throw error;
+    return data;
+  } catch (err) {
+    console.error("❌ Error sending email to Admin:", err);
+    throw new Error("Failed to send email to Admin.");
   }
 };
 

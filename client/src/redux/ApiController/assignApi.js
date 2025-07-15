@@ -48,6 +48,16 @@ export const assignApi = createApi({
     }),
 
 
+    AcceptAndAdmin: builder.mutation({
+      query: ({ thesisId, comment, assignedadmin }) => ({
+        url: `/assignments/${thesisId}/accept`,
+        method: "PATCH",
+        body: { comment, assignedadmin },
+      }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Assignment", id }],
+    }),
+
+
     // Update assignment status (PATCH /assignments/:id/status)
     updateStatus: builder.mutation({
       query: ({ thesisId, status }) => ({
@@ -82,6 +92,7 @@ export const {
   useCreateAssignmentMutation,
   useGetAssignmentByThesisQuery,
   useAddNoteAndAssignReviewerMutation,
+  useAcceptAndAdminMutation,
   useAddNoteMutation,
   useUpdateStatusMutation,
   useGetAllAssignmentsQuery,

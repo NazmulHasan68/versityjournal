@@ -99,7 +99,7 @@ const router = createBrowserRouter([
         children : [
           { path : 'dashboard', element : <Admin_dashboard/>},
           { path : 'thesis_article_management', element : <ThesisAndArticleManagement/>},
-          { path : "thesis_article_management/view", element : <Admin_view_thesis/>},
+          { path : "thesis_article_management/:id", element : <Admin_view_thesis/>},
           { path : 'user_management', element : <Admin_user_management/>},
           { path : 'review_assignment', element : <Admin_review_assignment/>},
           { path : 'revisions_handling', element : <Admin_revisions_handling/>},

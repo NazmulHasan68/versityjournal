@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -11,6 +11,7 @@ import {
 import { useGetUsersQuery } from "@/redux/ApiController/authApi";
 import { useCreateAssignmentMutation } from "@/redux/ApiController/assignApi";
 import { toast } from "sonner";
+import { useGetThesisByIdQuery } from "@/redux/ApiController/thesisApi";
 
 const statuses = [
   "pending",
@@ -22,7 +23,9 @@ const statuses = [
 ];
 
 export default function AdminViewThesis() {
-  const { state: thesis } = useLocation();
+  const {id} = useParams()
+
+  const {data:thesis} = useGetThesisByIdQuery(id)
 
   const { data, isLoading, isError } = useGetUsersQuery();
   const [createAssignment, { isLoading: creating }] =
@@ -72,7 +75,7 @@ export default function AdminViewThesis() {
           <p><strong>Category:</strong> {thesis.category}</p>
           <p><strong>Country:</strong> {thesis.country}</p>
           <p><strong>Type:</strong> {thesis.type}</p>
-          <p><strong>Status:</strong> {thesis.status}</p>
+          <p className="flex gap-2"><strong>Status:</strong> <p className="font-bold bg-sky-100 px-4 text-sky-600 text-md">{thesis.status}</p></p>
           <p><strong>Views:</strong> {thesis.viewed}</p>
           <p><strong>Submitted:</strong> {new Date(thesis.createdAt).toLocaleString()}</p>
         </div>
