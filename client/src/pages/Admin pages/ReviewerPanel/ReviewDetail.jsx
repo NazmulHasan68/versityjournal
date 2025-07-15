@@ -21,9 +21,16 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useLocation } from "react-router-dom";
 
 export default function ReviewDetail() {
   const { thesisId } = useParams();
+  const location = useLocation();
+ const [assignment] = location.state || [];
+
+  console.log(assignment);
+  
+
   const navigate = useNavigate();
 
   const { data: thesis, isLoading, isError } = useGetThesisByIdQuery(thesisId);
@@ -148,6 +155,31 @@ export default function ReviewDetail() {
           📄 Download Thesis File
         </a>
       )}
+
+      {/*here show the comment */}
+      {assignment.notes && assignment.notes.length > 0 ? (
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold text-gray-800 mb-3">Previous Comments</h3>
+          {assignment.notes.map((note, idx) => {
+            const formattedDate = new Date(note.at).toLocaleString(); // Format time properly
+            return (
+              <div key={note._id || idx} className="my-4 p-3 rounded-md bg-green-50 shadow-sm">
+                <div className="flex justify-between items-center mb-1">
+                  <p className="font-medium text-gray-700">
+                    {note.by?.name || "Unknown"}{" "}
+                    <span className="text-xs text-gray-500">({note.by?.email})</span>
+                  </p>
+                  <p className="text-xs text-gray-500">{formattedDate}</p>
+                </div>
+                <p className="text-gray-800 whitespace-pre-wrap">{note.message}</p>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="text-sm text-gray-500 italic mb-6">No comments available yet.</p>
+      )}
+
 
       {/* Update Form */}
       <section className="bg-gray-50 p-6 rounded-lg border">

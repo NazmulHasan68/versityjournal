@@ -17,9 +17,8 @@ export default function ReviewAssignments() {
   });
 
   const assignments = response?.data || [];
-  
-  console.log(assignments);
-  
+
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
@@ -90,7 +89,8 @@ export default function ReviewAssignments() {
                   </td>
                   <td className="px-4 py-2">
                     <Link
-                      to={`/reviewer/assignments/${item._id}`}
+                      to={`/reviewer/assignments/${item.thesisId._id}`}
+                      state={assignments}
                       className="text-blue-600 hover:underline"
                     >
                       View Details
