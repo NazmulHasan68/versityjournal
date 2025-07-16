@@ -139,6 +139,10 @@ export const authApi = createApi({
       invalidatesTags: ["Users"],
     }),
 
+    getUserById: builder.query({
+      query: (id) => `/users/${id}`,
+    }),
+
   }),
 });
 
@@ -153,5 +157,7 @@ export const {
   useCheckAuthQuery,
   useGetUsersQuery,
   useUpdateProfileMutation,
-  useUpdateUserRoleMutation
+
+  useUpdateUserRoleMutation,
+  useGetUserByIdQuery,
 } = authApi;

@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 export default function Admin_user_management() {
   const { data, isLoading, isError, error } = useGetUsersQuery();
@@ -103,11 +104,7 @@ export default function Admin_user_management() {
                     </Select>
                   </TableCell>
                   <TableCell>
-                    {user.isActive ? (
-                      <span className="text-green-600 font-medium">Active</span>
-                    ) : (
-                      <span className="text-gray-500">Inactive</span>
-                    )}
+                    <Link to={`${user._id}`} className="hover:underline hover:font-bold cursor-pointer">View</Link>
                   </TableCell>
                 </TableRow>
               ))

@@ -1,7 +1,7 @@
 import express from "express";
 import multer from 'multer'
 import path from 'path'
-import { login, logout, signup, verifyEmail, forgotPassword, resetPassword, checkAuth, getUsers, updateProfile } from "../controllers/authentication.controller.js";
+import { login, logout, signup, verifyEmail, forgotPassword, resetPassword, checkAuth, getUsers, updateProfile, getUserById, updateUserRole } from "../controllers/authentication.controller.js";
 import  {verifyToken}  from "../middlewares/verifyToken.js";
 
 
@@ -39,6 +39,14 @@ router.put(
   ]),
   updateProfile
 );
+
+// GET a single user
+router.get("/users/:id", getUserById);
+
+// PATCH role update
+router.patch("/users/:userId/role", updateUserRole);
+
+
 
 
 

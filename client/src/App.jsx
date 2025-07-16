@@ -54,6 +54,7 @@ import SubEditor_history_details from "./pages/Admin pages/SubEditorPanel/SubEdi
 import AdminPublished from "./pages/Admin pages/adiminPanel/AdminPublished";
 import Admin_accepted from "./pages/Admin pages/adiminPanel/Admin_accepted";
 import Admin_rejected from "./pages/Admin pages/adiminPanel/Admin_rejected";
+import Admin_user_details from "./pages/Admin pages/adiminPanel/Admin_user_details";
 
 
 const router = createBrowserRouter([
@@ -114,6 +115,7 @@ const router = createBrowserRouter([
           { path : 'accepted', element : <Admin_accepted/>},
           { path : 'accepted/id', element : <Admin_view_thesis/>},
           { path : 'user_management', element : <Admin_user_management/>},
+          { path : 'user_management/:id', element : <Admin_user_details/>},
           { path : 'supports', element : <Admin_suuport/>},
         ]
       },
