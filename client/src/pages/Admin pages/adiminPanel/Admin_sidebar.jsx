@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
+  CircleCheckBig,
+  CloudUpload,
   FileText,
   Users,
   ClipboardCheck,
-  FileEdit,
+  CircleX,
   LifeBuoy,
   Menu,
   LogOut,
@@ -22,10 +24,12 @@ import { Button } from "@/components/ui/button";
 
 const adminLinks = [
   { path: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { path: "published", label: "Published", icon: CloudUpload},
   { path: "thesis_article_management", label: "Thesis & Article", icon: FileText },
-  { path: "user_management", label: "User Management", icon: Users },
   { path: "review_assignment", label: "Review Assignment", icon: ClipboardCheck },
-  { path: "revisions_handling", label: "Revisions", icon: FileEdit },
+  { path: "accepted" , label : "Accepted", icon:CircleCheckBig},
+  { path: "rejected", label: "Rejected", icon: CircleX },
+  { path: "user_management", label: "User Management", icon: Users },
   { path: "supports", label: "Support", icon: LifeBuoy },
 ];
 

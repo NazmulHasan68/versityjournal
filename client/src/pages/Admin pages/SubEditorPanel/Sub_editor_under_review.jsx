@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 export default function Sub_editor_under_review() {
   const { data: user } = useCheckAuthQuery();
   const { data } = useGetAssignmentsBySubEditorQuery(user?.user._id);
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;

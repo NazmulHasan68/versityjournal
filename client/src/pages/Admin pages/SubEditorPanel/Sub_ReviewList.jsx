@@ -7,21 +7,46 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 export default function Sub_ReviewList() {
-  const { data: user } = useCheckAuthQuery();
-  const { data } = useGetAssignmentsBySubEditorQuery(user?.user._id);
+  const { data: user, isLoading: userLoading } = useCheckAuthQuery();
+
+  const subEditorId = user?.user?._id;
+
+  const {
+    data: response,
+    isLoading,
+    isError,
+  } = useGetAssignmentsBySubEditorQuery(subEditorId, {
+    skip: !subEditorId,
+  });
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const itemsPerPage = 5;
 
-  const filtered = (data?.data || []).filter(
-    (item) =>
-      item.status === "submitted" &&
-      ((item?.thesisId?.title?.toLowerCase().includes(search.toLowerCase())) ||
-       (item?.thesisId?.author?.name?.toLowerCase().includes(search.toLowerCase())))
+  const assignments = response?.data || [];
+
+  const filtered = assignments.filter((item) =>
+    item.status === "submitted" &&
+    (
+      item?.thesisId?.title?.toLowerCase().includes(search.toLowerCase()) ||
+      item?.thesisId?.author?.name?.toLowerCase().includes(search.toLowerCase())
+    )
   );
 
   const paginated = filtered.slice((page - 1) * itemsPerPage, page * itemsPerPage);
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
+
+  if (isLoading || userLoading) {
+    return <p className="text-center mt-10 text-gray-500">Loading data...</p>;
+  }
+
+  if (isError) {
+    return (
+      <p className="text-center mt-10 text-red-600">
+        Failed to load submitted theses.
+      </p>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 mt-10">
@@ -46,34 +71,37 @@ export default function Sub_ReviewList() {
             </tr>
           </thead>
           <tbody>
-            {paginated.length === 0 && (
+            {paginated.length === 0 ? (
               <tr>
                 <td colSpan="4" className="px-4 py-6 text-center text-gray-500">
                   No submitted theses found.
                 </td>
               </tr>
+            ) : (
+              paginated.map((item) => (
+                <tr key={item._id} className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-2">{item.thesisId?.title || "N/A"}</td>
+                  <td className="px-4 py-2">{item.thesisId?.author?.name || "N/A"}</td>
+                  <td className="px-4 py-2">
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-2">
+                    <Link
+                      to={`/sub-editor/review/${item.thesisId._id}`}
+                      state={item}
+                      className="text-blue-600 hover:underline"
+                    >
+                      View Details
+                    </Link>
+                  </td>
+                </tr>
+              ))
             )}
-            {paginated.map((item) => (
-              <tr key={item._id} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-2">{item.thesisId?.title || "N/A"}</td>
-                <td className="px-4 py-2">{item.thesisId?.author?.name || "N/A"}</td>
-                <td className="px-4 py-2">
-                  {new Date(item.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-2">
-                  <Link
-                    to={`/sub-editor/review/${item.thesisId._id}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    View Details
-                  </Link>
-                </td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>
 
+      {/* Pagination */}
       <div className="flex justify-between items-center mt-6">
         <Button
           variant="outline"

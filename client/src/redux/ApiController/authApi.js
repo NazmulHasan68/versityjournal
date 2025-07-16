@@ -9,6 +9,7 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: USER_API,
     credentials: "include",
+    providesTags: ["Users"],
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
@@ -128,6 +129,16 @@ export const authApi = createApi({
       }),
     }),
 
+
+    updateUserRole: builder.mutation({
+      query: ({ userId, role }) => ({
+        url: `/users/${userId}/role`,
+        method: "PATCH",
+        body: { role },
+      }),
+      invalidatesTags: ["Users"],
+    }),
+
   }),
 });
 
@@ -141,5 +152,6 @@ export const {
   useResetPasswordMutation,
   useCheckAuthQuery,
   useGetUsersQuery,
-  useUpdateProfileMutation
+  useUpdateProfileMutation,
+  useUpdateUserRoleMutation
 } = authApi;

@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button";
 const reviewerLinks = [
   { path: "", label: "Dashboard", icon: LayoutDashboard },
   { path: "assignments", label: "Assignments", icon: ClipboardCheck },
-  { path: "messages", label: "Messages", icon: MessageSquare },
   { path: "accepted", label: "Accepted", icon: ThumbsUp },
   { path: "rejected", label: "Rejected", icon: ThumbsDown },
 ];

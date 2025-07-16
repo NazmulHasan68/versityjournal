@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/pagination";
 import { Link } from "react-router-dom";
 
-export default function ThesisAndArticleManagement() {
+export default function Admin_accepted() {
   const { data, isLoading } = useGetAllThesesQuery();
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
@@ -49,7 +49,7 @@ export default function ThesisAndArticleManagement() {
 
   // Filter to include only "submitted" status
   const submittedItems = filtered.filter(
-    (thesis) => thesis.status === "submitted"
+    (thesis) => thesis.status === "accepted"
   );
 
   const totalPages = Math.ceil(submittedItems.length / itemsPerPage);
@@ -130,7 +130,7 @@ export default function ThesisAndArticleManagement() {
             ) : (
               <TableRow>
                 <TableCell colSpan={4} className="text-center py-6">
-                  No submitted theses found.
+                  Published theses found.
                 </TableCell>
               </TableRow>
             )}

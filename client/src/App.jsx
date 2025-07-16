@@ -27,7 +27,6 @@ import ThesisDetails from "./pages/userPages/UserControlPane/ThesisDetails";
 import Admin_user_management from "./pages/Admin pages/adiminPanel/Admin_user_management";
 import ThesisAndArticleManagement from "./pages/Admin pages/adiminPanel/ThesisAndArticleManagement";
 import Admin_review_assignment from "./pages/Admin pages/adiminPanel/Admin_review_assignment";
-import Admin_revisions_handling from "./pages/Admin pages/adiminPanel/Admin_revisions_handling";
 import Admin_suuport from "./pages/Admin pages/adiminPanel/Admin_suuport";
 import Admin_dashboard from "./pages/Admin pages/adiminPanel/Admin_dashboard";
 import Admin_view_thesis from "./pages/Admin pages/adiminPanel/Admin_view_thesis";
@@ -49,6 +48,12 @@ import Researcher_thesis_details from "./pages/Admin pages/ResearcherPanel/Resea
 import Reacher_co_author from "./pages/Admin pages/ResearcherPanel/Reacher_co_author";
 import Sub_editor_under_review from "./pages/Admin pages/SubEditorPanel/Sub_editor_under_review";
 import Sub_editor_under_details from "./pages/Admin pages/SubEditorPanel/Sub_editor_under_details";
+import Revieser_accpeted_details from "./pages/Admin pages/ReviewerPanel/Revieser_accpeted_details";
+import Revieser_rejected_details from "./pages/Admin pages/ReviewerPanel/Revieser_rejected_details";
+import SubEditor_history_details from "./pages/Admin pages/SubEditorPanel/SubEditor_history_details";
+import AdminPublished from "./pages/Admin pages/adiminPanel/AdminPublished";
+import Admin_accepted from "./pages/Admin pages/adiminPanel/Admin_accepted";
+import Admin_rejected from "./pages/Admin pages/adiminPanel/Admin_rejected";
 
 
 const router = createBrowserRouter([
@@ -100,9 +105,15 @@ const router = createBrowserRouter([
           { path : 'dashboard', element : <Admin_dashboard/>},
           { path : 'thesis_article_management', element : <ThesisAndArticleManagement/>},
           { path : "thesis_article_management/:id", element : <Admin_view_thesis/>},
-          { path : 'user_management', element : <Admin_user_management/>},
           { path : 'review_assignment', element : <Admin_review_assignment/>},
-          { path : 'revisions_handling', element : <Admin_revisions_handling/>},
+          { path : 'review_assignment/:id', element : <Admin_view_thesis/>},
+          { path : 'rejected', element : <Admin_rejected/>},
+          { path : 'rejected/:id', element : <Admin_view_thesis/>},
+          { path : 'published', element : <AdminPublished/>},
+          { path : 'published/id', element : <Admin_view_thesis/>},
+          { path : 'accepted', element : <Admin_accepted/>},
+          { path : 'accepted/id', element : <Admin_view_thesis/>},
+          { path : 'user_management', element : <Admin_user_management/>},
           { path : 'supports', element : <Admin_suuport/>},
         ]
       },
@@ -110,13 +121,14 @@ const router = createBrowserRouter([
         path: "/sub-editor",
         element: <SubEditorLayout />,
         children: [
+          { path: '', element: <SubEditorDashboard /> }, 
           { path: 'review', element: <Sub_ReviewList /> },
           { path: 'review/:thesisId', element: <Sub_ReviewDetail /> },
           { path: 'under_review', element : <Sub_editor_under_review/>},
           { path: 'under_review/:thesisId', element : <Sub_editor_under_details/>},
           { path: 'messages', element: <SubEditorMessages /> }, 
           { path: 'history', element: <SubmissionHistory /> }, 
-          { path: '', element: <SubEditorDashboard /> }, 
+          { path: 'history/:thesisId', element : <SubEditor_history_details/>},
         ]
       },
       {
@@ -128,7 +140,9 @@ const router = createBrowserRouter([
           { path: "assignments/:thesisId", element: <ReviewDetail /> }, 
           { path: "messages", element: <ReviewerMessages /> }, 
           { path: "accepted", element: <Reviewer_accept/>},
-          { path: "rejected", element : <Reviewer_Rejceted/>}
+          { path: "accepted/:thesisId", element: <Revieser_accpeted_details /> }, 
+          { path: "rejected", element : <Reviewer_Rejceted/>},
+          { path: "rejected/:thesisId", element: <Revieser_rejected_details /> }, 
         ]
       },
       { path : "/editor", element : <EditorLayout/>, 

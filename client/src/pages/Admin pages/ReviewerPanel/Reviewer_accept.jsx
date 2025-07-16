@@ -90,7 +90,7 @@ export default function Reviewer_accept() {
                   </td>
                   <td className="px-4 py-2">
                     <Link
-                      to={`/reviewer/assignments/${item.thesisId._id}`}
+                      to={`/reviewer/accepted/${item.thesisId._id}`}
                       state={assignments}
                       className="text-blue-600 hover:underline"
                     >

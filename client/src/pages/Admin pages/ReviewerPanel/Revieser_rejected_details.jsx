@@ -1,9 +1,10 @@
+
 // src/pages/Sub_ReviewDetail.jsx
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useGetThesisByIdQuery } from "@/redux/ApiController/thesisApi";
 import {
-  useAddNoteAndAssignReviewerMutation,
+  useAcceptAndAdminMutation,
   useAddNoteMutation,
   useUpdateStatusMutation,
 } from "@/redux/ApiController/assignApi";
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { useGetUsersQuery } from "@/redux/ApiController/authApi";
+// ✅ Import Select components
 import {
   Select,
   SelectTrigger,
@@ -19,63 +21,66 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useLocation } from "react-router-dom";
 
-export default function Sub_ReviewDetail() {
+export default function Revieser_rejected_details() {
   const { thesisId } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
-  const assignment = location.state;
+  const [assignment] = location.state || [];
+
+
+  const navigate = useNavigate();
 
   const { data: thesis, isLoading, isError } = useGetThesisByIdQuery(thesisId);
   const [updateStatus] = useUpdateStatusMutation();
   const [addNote] = useAddNoteMutation();
-  const [addNoteAndAssignReviewer] = useAddNoteAndAssignReviewerMutation();
+  const [AcceptAndAdmin] = useAcceptAndAdminMutation();
+
   const { data } = useGetUsersQuery();
-  const reviewers =
-    data?.users?.filter((user) => user.role === "reviewer") || [];
+  const subEditors =
+    data?.users?.filter((user) => user.role === "admin") || [];
 
   const [status, setStatus] = useState("");
   const [comment, setComment] = useState("");
-  const [assignedReviewer, setassignedReviewer] = useState("");
+  // ✅ State for assigned reviewer
+  const [assignedadmin, setassignedadmin] = useState("");
 
   useEffect(() => {
-    if (thesis?.status) setStatus(thesis.status);
+    if (thesis?.status) {
+      setStatus(thesis.status);
+    }
   }, [thesis]);
 
   const handleUpdate = async () => {
-    if (!status || !comment || (status === "under_review" && !assignedReviewer)) {
-      toast.error("All required fields must be filled.");
+    if (!status || !comment ) {
+      toast.error("All fields are required");
       return;
     }
 
     try {
-      if (status === "under_review") {
+      
+      if(status == "accepted"){
         await updateStatus({ thesisId, status }).unwrap();
-        await addNoteAndAssignReviewer({
-          thesisId,
-          comment,
-          assignedReviewer,
-        }).unwrap();
-        toast.success("Reviewer assigned and status updated.");
-      } else {
+        await AcceptAndAdmin({ thesisId, comment, assignedadmin }).unwrap();
+        toast.success("Status, Comment & Admin assigned successfully");
+      }else{
         await updateStatus({ thesisId, status }).unwrap();
         await addNote({ thesisId, comment }).unwrap();
-        toast.success("Status and comment updated.");
+        toast.success("Status, Comment & Reviewer assigned successfully");
       }
-
+    
       setComment("");
       setStatus("");
-      setassignedReviewer("");
+      setassignedadmin("");
       navigate(-1);
     } catch (error) {
-      toast.error("Failed to update thesis.");
+      toast.error("Failed to update thesis");
       console.error(error);
     }
   };
 
   if (isLoading)
     return <p className="text-center mt-10">Loading thesis details...</p>;
-
   if (isError)
     return (
       <p className="text-center mt-10 text-red-600">
@@ -149,17 +154,14 @@ export default function Sub_ReviewDetail() {
         </a>
       )}
 
-      {/* Previous Comments */}
-      {assignment?.notes && assignment.notes.length > 0 ? (
+      {/*here show the comment */}
+      {assignment.notes && assignment.notes.length > 0 ? (
         <div className="md:mb-8 mb-4">
           <h3 className="text-lg font-semibold text-gray-800 mb-3">Previous Comments</h3>
           {assignment.notes.map((note, idx) => {
-            const formattedDate = new Date(note.at).toLocaleString();
+            const formattedDate = new Date(note.at).toLocaleString(); 
             return (
-              <div
-                key={note._id || idx}
-                className="md:my-4 my-2 md:p-4 p-2 rounded-md bg-slate-100 shadow-sm"
-              >
+              <div key={note._id || idx} className="md:my-4 my-2 md:p-4 p-2 rounded-md bg-slate-100 shadow-sm">
                 <div className="flex justify-between items-center mb-1">
                   <p className="font-medium text-xs md:text-md py-2 text-gray-700">
                     {note.by?.name || "Unknown"}{" "}
@@ -176,75 +178,7 @@ export default function Sub_ReviewDetail() {
         <p className="text-sm text-gray-500 italic mb-6">No comments available yet.</p>
       )}
 
-      {/* Update Form */}
-      <section className="bg-gray-50 p-6 rounded-lg border">
-        <h3 className="text-lg font-semibold mb-4">Update Status & Comment</h3>
 
-        <div className="flex gap-4 my-2 w-full">
-          <div className="mb-4 basis-1/2">
-            <label htmlFor="status-select" className="block font-medium mb-1 text-gray-700">
-              Status
-            </label>
-            <select
-              id="status-select"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            >
-              <option value="">Select status</option>
-              <option value="submitted">Submitted</option>
-              <option value="under_review">Under Review</option>
-              <option value="accepted">Accepted</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </div>
-
-          {/* Only show reviewer field if status is "under_review" */}
-          {status === "under_review" && (
-            <div className="mb-4 basis-1/2">
-              <label className="text-sm font-medium block mb-1">Assign Reviewer</label>
-              <Select value={assignedReviewer} onValueChange={setassignedReviewer}>
-                <SelectTrigger className="w-full py-4">
-                  <SelectValue placeholder="Choose reviewer" />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-50 py-1">
-                  {reviewers.map((s) => (
-                    <SelectItem key={s._id} value={s._id}>
-                      {s.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="comment" className="block font-medium mb-1 text-gray-700">
-            Comment
-          </label>
-          <Textarea
-            id="comment"
-            rows={4}
-            placeholder="Write a comment..."
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="resize-y"
-          />
-        </div>
-
-        <Button
-          onClick={handleUpdate}
-          disabled={
-            !status ||
-            !comment ||
-            (status === "under_review" && !assignedReviewer)
-          }
-          className="w-full sm:w-40"
-        >
-          Submit
-        </Button>
-      </section>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useGetAllThesesQuery } from "@/redux/ApiController/thesisApi";
 import { Input } from "@/components/ui/input";
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/pagination";
 import { Link } from "react-router-dom";
 
-export default function ThesisAndArticleManagement() {
+export default function Admin_rejected() {
   const { data, isLoading } = useGetAllThesesQuery();
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
@@ -49,7 +50,7 @@ export default function ThesisAndArticleManagement() {
 
   // Filter to include only "submitted" status
   const submittedItems = filtered.filter(
-    (thesis) => thesis.status === "submitted"
+    (thesis) => thesis.status === "rejected"
   );
 
   const totalPages = Math.ceil(submittedItems.length / itemsPerPage);
@@ -130,7 +131,7 @@ export default function ThesisAndArticleManagement() {
             ) : (
               <TableRow>
                 <TableCell colSpan={4} className="text-center py-6">
-                  No submitted theses found.
+                  Rejected theses found.
                 </TableCell>
               </TableRow>
             )}
