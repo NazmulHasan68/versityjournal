@@ -55,6 +55,9 @@ import AdminPublished from "./pages/Admin pages/adiminPanel/AdminPublished";
 import Admin_accepted from "./pages/Admin pages/adiminPanel/Admin_accepted";
 import Admin_rejected from "./pages/Admin pages/adiminPanel/Admin_rejected";
 import Admin_user_details from "./pages/Admin pages/adiminPanel/Admin_user_details";
+import Admin_published_view from "./pages/Admin pages/adiminPanel/Admin_published_view";
+import Admin_rejected_view from "./pages/Admin pages/adiminPanel/Admin_rejected_view";
+import Admin_accepted_view from "./pages/Admin pages/adiminPanel/Admin_accepted_view";
 
 
 const router = createBrowserRouter([
@@ -109,11 +112,11 @@ const router = createBrowserRouter([
           { path : 'review_assignment', element : <Admin_review_assignment/>},
           { path : 'review_assignment/:id', element : <Admin_view_thesis/>},
           { path : 'rejected', element : <Admin_rejected/>},
-          { path : 'rejected/:id', element : <Admin_view_thesis/>},
+          { path : 'rejected/:id', element : <Admin_rejected_view/>},
           { path : 'published', element : <AdminPublished/>},
-          { path : 'published/id', element : <Admin_view_thesis/>},
+          { path : 'published/:id', element : <Admin_published_view/>},
           { path : 'accepted', element : <Admin_accepted/>},
-          { path : 'accepted/id', element : <Admin_view_thesis/>},
+          { path : 'accepted/:id', element : <Admin_accepted_view/>},
           { path : 'user_management', element : <Admin_user_management/>},
           { path : 'user_management/:id', element : <Admin_user_details/>},
           { path : 'supports', element : <Admin_suuport/>},

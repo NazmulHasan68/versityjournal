@@ -29,6 +29,9 @@ export default function Admin_rejected() {
   useEffect(() => {
     if (!data?.theses) return;
 
+    console.log(data);
+    
+
     const filteredData = data.theses.filter((item) => {
       const values = [
         item?.title,

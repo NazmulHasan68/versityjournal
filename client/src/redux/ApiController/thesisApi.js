@@ -54,6 +54,17 @@ export const thesisApi = createApi({
       }),
     }),
 
+
+    updateThesisFormAdmin: builder.mutation({
+      query: ({ id, update }) => ({
+        url: `/thesis/${id}`,
+        method: "PATCH",
+        body: update,
+      }),
+      invalidatesTags: ["Theses"],
+    }),
+
+
   }),
 });
 
@@ -64,4 +75,6 @@ export const {
   useUpdateThesisMutation,
   useDeleteThesisMutation,
   useIncrementViewMutation,
+
+  useUpdateThesisFormAdminMutation
 } = thesisApi;

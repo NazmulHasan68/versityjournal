@@ -157,3 +157,38 @@ export const incrementView = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+
+
+
+
+export const updateThesisFormAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const update = req.body;
+
+    const updatedThesis = await Thesis.findByIdAndUpdate(id, update, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedThesis) {
+      return res.status(404).json({ success: false, message: "Thesis not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Thesis updated successfully",
+      thesis: updatedThesis,
+    });
+  } catch (error) {
+    console.error("Error updating thesis:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};

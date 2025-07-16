@@ -8,7 +8,8 @@ import {
   getThesisById,
   updateThesis,
   deleteThesis,
-  incrementView
+  incrementView,
+  updateThesisFormAdmin
 } from '../controllers/thesis_controller.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
 
@@ -54,5 +55,6 @@ router.put( '/:id', upload.fields([
 
 router.delete('/:id', deleteThesis);
 router.put('/view/:id', incrementView);
+router.patch("/thesis/:id", updateThesisFormAdmin);
 
 export default router;
