@@ -9,7 +9,7 @@ import { sendEmailForStatus, sendEmailForUpdateStatusandMessage, sendEmailToAdmi
 export const createAssignment = async (req, res) => {
   try {
     const { thesisId, assignedSubEditor, assignedReviewer, status } = req.body;
-
+    const userId = req.userId;
     // Check if already assigned
     const existing = await ThesisAssignment.findOne({ thesisId });
     if (existing) {
@@ -20,6 +20,7 @@ export const createAssignment = async (req, res) => {
 
     // Create new assignment
     const assignment = new ThesisAssignment({
+      researcherId:userId,
       thesisId,
       assignedSubEditor,
       assignedReviewer: assignedReviewer || null,
@@ -365,6 +366,7 @@ export const getAssignmentsByReviewer = async (req, res) => {
   try {
     const { reviewerId } = req.params;
 
+
     const assignments = await ThesisAssignment.find({ assignedReviewer: reviewerId })
       .populate("assignedReviewer", "name email role")
       .populate("assignedSubEditor", "name email role")
@@ -412,3 +414,34 @@ export const getAssignmentsBySubEditor = async (req, res) => {
 
 
 
+
+export const getAssignmentsByResearcher = async (req, res) => {
+  try {
+
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(400).json({ success: false, message: "Missing researcher ID." });
+    }
+
+    const assignments = await ThesisAssignment.find({ researcherId: userId })
+      .populate("assignedReviewer", "name email role")
+      .populate("assignedSubEditor", "name email role")
+      .populate("notes.by", "name email")
+      .populate({
+        path: "thesisId",
+        populate: [
+          { path: "author", select: "name email role" },
+          { path: "coAuthors", select: "name email role" },
+        ],
+      });
+
+    res.status(200).json({ success: true, data: assignments });
+  } catch (error) {
+    console.error("🔴 Error fetching assignments by researcher:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server Error. Failed to fetch assignments.",
+    });
+  }
+};

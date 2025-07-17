@@ -58,6 +58,9 @@ import Admin_user_details from "./pages/Admin pages/adiminPanel/Admin_user_detai
 import Admin_published_view from "./pages/Admin pages/adiminPanel/Admin_published_view";
 import Admin_rejected_view from "./pages/Admin pages/adiminPanel/Admin_rejected_view";
 import Admin_accepted_view from "./pages/Admin pages/adiminPanel/Admin_accepted_view";
+import Reacher_published from "./pages/Admin pages/ResearcherPanel/Reacher_published";
+import Reacher_rejected from "./pages/Admin pages/ResearcherPanel/Reacher_rejected";
+import Reacher_edit_thesis from "./pages/Admin pages/ResearcherPanel/Reacher_edit_thesis";
 
 
 const router = createBrowserRouter([
@@ -98,10 +101,11 @@ const router = createBrowserRouter([
         path: "/researcher",
         element: <ReseacherLayout />,
         children: [
-          { path: "", element: <ResearcherDashboard /> },                   
           { path: "thesislist", element: <Researcher_thesislist /> },                 
-          { path: "thesis/:thesisId", element: <Researcher_thesis_details /> },        
-          { path: "co-author", element: <Reacher_co_author /> },        
+          { path: "thesislist/:thesisId", element: <Researcher_thesis_details /> },  
+          { path: "thesislist/:thesisId/edit", element: <Reacher_edit_thesis /> },       
+          { path: "published", element: <Reacher_published /> },        
+          { path: "rejected", element: <Reacher_rejected /> },        
         ]
       },
       { path : "/admin", element : <AdminLayout/>,

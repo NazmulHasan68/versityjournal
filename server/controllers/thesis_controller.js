@@ -80,7 +80,7 @@ export const getAllTheses = async (req, res) => {
 
 // Get single thesis by ID
 export const getThesisById = async (req, res) => {
-  console.log(req.params.id);
+
   
   try {
     const thesis = await Thesis.findById(req.params.id)

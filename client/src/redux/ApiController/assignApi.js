@@ -85,6 +85,12 @@ export const assignApi = createApi({
       query: (subEditorId) => `/assignments/subeditor/${subEditorId}`,
       providesTags: (result, error, arg) => [{ type: "Assignment", id: arg }],
     }),
+
+     // Get assignments by sub-editor (GET /assignments/subeditor/:subEditorId)
+    getAssignmentsByReasecher: builder.query({
+      query: () => `/assignments/reacher`,
+      providesTags: (result, error, arg) => [{ type: "Assignment", id: arg }],
+    }),
   }),
 });
 
@@ -98,4 +104,6 @@ export const {
   useGetAllAssignmentsQuery,
   useGetAssignmentsByReviewerQuery,
   useGetAssignmentsBySubEditorQuery,
+
+  useGetAssignmentsByReasecherQuery
 } = assignApi;

@@ -6,8 +6,8 @@ import {
   FileText,
   Users,
   ClipboardCheck,
-  FileEdit,
-  LifeBuoy,
+  CircleCheckBig,
+  CircleX,
   Menu,
   LogOut,
 } from "lucide-react";
@@ -22,9 +22,9 @@ import { Button } from "@/components/ui/button";
 
 // Update these links for researcher routes
 const researcherLinks = [
-  { path: "", label: "Dashboard", icon: LayoutDashboard },
   { path: "thesislist", label: "Thesis List", icon: FileText },
-  { path: "co-author", label:"Co Author", icon:ClipboardCheck}
+  { path: "published", label:"Published", icon:CircleCheckBig},
+  { path: "rejected", label:"Rejected", icon:CircleX},
 ];
 
 const SidebarLink = ({ path, label, Icon, isActive, onClick }) => (

@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const thesisAssignmentSchema = new mongoose.Schema(
   {
+     researcherId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", 
+      required: true,
+    },
     thesisId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Thesis",
@@ -48,5 +53,4 @@ const thesisAssignmentSchema = new mongoose.Schema(
 // ✅ Export default (recommended)
 export default mongoose.model("ThesisAssignment", thesisAssignmentSchema);
 
-// OR named export, if you prefer
-// export const ThesisAssign = mongoose.model("ThesisAssignment", thesisAssignmentSchema);
+
