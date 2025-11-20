@@ -28,6 +28,9 @@ export default function ThesisAndArticleManagement() {
   useEffect(() => {
     if (!data?.theses) return;
 
+
+    
+
     const filteredData = data.theses.filter((item) => {
       const values = [
         item?.title,
@@ -43,7 +46,7 @@ export default function ThesisAndArticleManagement() {
 
       return values.includes(search.toLowerCase());
     });
-
+        console.log(filteredData);
     setFiltered(filteredData);
   }, [search, data]);
 

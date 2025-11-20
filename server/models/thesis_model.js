@@ -6,7 +6,7 @@ const thesisSchema = new mongoose.Schema({
   keywords: [{ type: String }],
   category: {
     type: String,
-    enum: ['Computer Science', 'Engineering', 'Medical', 'Business', 'Social Science', 'Education', 'Law', 'Others'],
+   
   },
   type: {
     type: String,

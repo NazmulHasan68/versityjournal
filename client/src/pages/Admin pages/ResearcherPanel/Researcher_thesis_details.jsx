@@ -5,6 +5,8 @@ export default function Researcher_thesis_details() {
   const location = useLocation();
   const item = location.state;
 
+  
+
   if (!item) return <div className="p-6 text-red-500"> No thesis data passed.</div>;
 
   return (

@@ -20,6 +20,8 @@ export default function Admin_accepted_view() {
   const [updateThesis] =   useUpdateThesisFormAdminMutation();
 
 
+
+
   const [isPublished, setIsPublished] = useState(thesis?.status === "published");
   const [isPopular, setIsPopular] = useState(thesis?.popular || false);
   const [isSuggested, setIsSuggested] = useState(thesis?.suggested || false);
@@ -46,25 +48,25 @@ export default function Admin_accepted_view() {
   return (
     <div className="max-w-5xl h-screen overflow-auto mx-auto p-6 font-sans">
       {/* Title */}
-      <h1 className="text-2xl font-bold text-blue-700 mb-4">{thesis.title}</h1>
+      <h1 className="text-2xl font-bold text-blue-700 mb-4">{thesis?.title}</h1>
 
       {/* Thesis Info */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <div className="space-y-2 text-sm text-gray-800">
-          <p><strong>Author:</strong> {thesis.author?.name} ({thesis.author?.email})</p>
-          <p><strong>University:</strong> {thesis.university}</p>
-          <p><strong>Category:</strong> {thesis.category}</p>
-          <p><strong>Country:</strong> {thesis.country}</p>
-          <p><strong>Type:</strong> {thesis.type}</p>
+          <p><strong>Author:</strong> {thesis?.author?.name} ({thesis?.author?.email})</p>
+          <p><strong>University:</strong> {thesis?.university}</p>
+          <p><strong>Category:</strong> {thesis?.category}</p>
+          <p><strong>Country:</strong> {thesis?.country}</p>
+          <p><strong>Type:</strong> {thesis?.type}</p>
           <p className="flex gap-2"><strong>Status:</strong> 
-            <span className="font-bold bg-sky-100 px-4 text-sky-600 text-md">{thesis.status}</span>
+            <span className="font-bold bg-sky-100 px-4 text-sky-600 text-md">{thesis?.status}</span>
           </p>
-          <p><strong>Views:</strong> {thesis.viewed}</p>
-          <p><strong>Submitted:</strong> {new Date(thesis.createdAt).toLocaleString()}</p>
+          <p><strong>Views:</strong> {thesis?.viewed}</p>
+          <p><strong>Submitted:</strong> {new Date(thesis?.createdAt).toLocaleString()}</p>
         </div>
         <div>
           <img
-            src={`${baseURL}/public/${thesis.cover}`}
+            src={`${baseURL}/public/${thesis?.cover}`}
             alt="Thesis Cover"
             className="w-full max-h-60 object-cover rounded border"
           />
@@ -74,13 +76,13 @@ export default function Admin_accepted_view() {
       {/* Abstract */}
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-1">Abstract</h2>
-        <p className="text-gray-700 text-sm">{thesis.abstract}</p>
+        <p className="text-gray-700 text-sm">{thesis?.abstract}</p>
       </div>
 
       {/* File Link */}
       <div className="mb-6">
         <a
-          href={`${baseURL}/public/${thesis.fileUrl}`}
+          href={`${baseURL}/public/${thesis?.fileUrl}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-600 underline text-sm"
@@ -112,7 +114,7 @@ export default function Admin_accepted_view() {
                 transition-colors
                 duration-300
                 after:absolute
-                after:top-0.5
+                after:top-0.3
                 after:left-0.5
                 after:h-6
                 after:w-6
@@ -148,7 +150,7 @@ export default function Admin_accepted_view() {
                 transition-colors
                 duration-300
                 after:absolute
-                after:top-0.5
+                after:top-0.3
                 after:left-0.5
                 after:h-6
                 after:w-6
@@ -184,7 +186,7 @@ export default function Admin_accepted_view() {
                 transition-colors
                 duration-300
                 after:absolute
-                after:top-0.5
+                after:top-0.3
                 after:left-0.5
                 after:h-6
                 after:w-6

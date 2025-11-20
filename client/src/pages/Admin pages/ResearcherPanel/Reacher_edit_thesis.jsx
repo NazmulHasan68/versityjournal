@@ -14,6 +14,9 @@ const types = ["article", "thesis"];
 export default function Reacher_edit_thesis() {
   const { thesisId } = useParams();
   const { data: thesisData } = useGetThesisByIdQuery(thesisId);
+
+  console.log(thesisData);
+  
   const [updateThesis, { isLoading }] = useUpdateThesisMutation();
 
   const [form, setForm] = useState({
@@ -52,36 +55,49 @@ export default function Reacher_edit_thesis() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!agreed) {
-      toast.error("You must agree to the terms and conditions before submitting.");
-      return;
-    }
+  if (!agreed) {
+    toast.error("You must agree to the terms and conditions before submitting.");
+    return;
+  }
 
-    const coAuthorsArray = form.coAuthorsEmails
-      .split(",")
-      .map((email) => email.trim())
-      .filter((email) => email.length > 0);
+  const coAuthorsArray = form.coAuthorsEmails
+    .split(",")
+    .map(email => email.trim())
+    .filter(email => email);
 
-    const formData = new FormData();
-    Object.entries(form).forEach(([key, value]) => {
-      if (key !== "coAuthorsEmails") {
-        formData.append(key, value);
-      }
-    });
-    formData.append("coAuthorsEmails", JSON.stringify(coAuthorsArray));
-    if (cover) formData.append("cover", cover);
-    if (fileUrl) formData.append("fileUrl", fileUrl);
-
-    try {
-      await updateThesis({ id: thesisId, formData }).unwrap();
-      toast.success("Thesis updated successfully!");
-    } catch (err) {
-      console.error(err);
-      toast.error("Update failed!");
-    }
+  const cleanedForm = {
+    ...form,
+    status: 'submitted', // must be string
   };
+
+  const formData = new FormData();
+
+  // Append all fields except coAuthorsEmails
+  for (const [key, value] of Object.entries(cleanedForm)) {
+    if (key !== 'coAuthorsEmails') {
+      formData.append(key, value);
+    }
+  }
+
+  // Correctly append each co-author
+  coAuthorsArray.forEach(author => {
+    formData.append('coAuthors', author); // Must be valid ObjectId if required by schema
+  });
+
+  if (cover) formData.append('cover', cover);
+  if (fileUrl) formData.append('fileUrl', fileUrl);
+
+  try {
+    await updateThesis({ id: thesisId, formData }).unwrap();
+    toast.success("Thesis updated successfully!");
+  } catch (err) {
+    console.error(err);
+    toast.error(err?.data?.message || "Update failed!");
+  }
+};
+
 
   return (
     <div className="max-w-7xl mx-auto px-2 md:px-8 py-4 h-screen overflow-auto rounded-2xl mt-6">
@@ -200,11 +216,16 @@ export default function Reacher_edit_thesis() {
             />
             {thesisData?.cover && (
               <img
-                src={`${import.meta.env.VITE_BASE_URL}/public/${thesisData.cover}`}
+                src={
+                  thesisData.cover.includes("public")
+                    ? `${import.meta.env.VITE_BASE_URL}/${thesisData.cover.replace(/\\/g, "/")}`
+                    : `${import.meta.env.VITE_BASE_URL}/public/${thesisData.cover.replace(/\\/g, "/")}`
+                }
                 alt="Old Cover"
                 className="w-32 h-32 object-cover rounded mt-2"
               />
             )}
+
           </div>
 
           <div>
